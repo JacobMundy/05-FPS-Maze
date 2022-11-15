@@ -1,0 +1,140 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Maze/Maze.gd" type="Script" id=1]
+[ext_resource path="res://Player/Player.gd" type="Script" id=2]
+[ext_resource path="res://Menu/Menu.gd" type="Script" id=3]
+[ext_resource path="res://Enemies/Crystal.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Menu/Sono-Bold.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="CapsuleMesh" id=1]
+radius = 0.5
+
+[sub_resource type="CapsuleShape" id=2]
+radius = 0.5
+
+[sub_resource type="BoxShape" id=3]
+margin = 0.001
+extents = Vector3( 0.4, 0.1, 0.4 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.2, 0.145098, 0.145098, 1 )
+corner_radius_top_left = 90
+corner_radius_top_right = 20
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.219608, 0.180392, 0.180392, 0.776471 )
+corner_radius_top_left = 90
+corner_radius_top_right = 20
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.172549, 0.129412, 0.129412, 1 )
+corner_radius_top_left = 90
+corner_radius_top_right = 20
+
+[sub_resource type="Theme" id=7]
+Button/styles/hover = SubResource( 4 )
+Button/styles/normal = SubResource( 5 )
+Button/styles/pressed = SubResource( 6 )
+
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 5 )
+
+[node name="Game" type="Spatial"]
+
+[node name="Maze" type="Spatial" parent="."]
+script = ExtResource( 1 )
+
+[node name="Enemy_Container" type="Spatial" parent="Maze"]
+
+[node name="Crystal" parent="Maze/Enemy_Container" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.1637, 0, 7.85232 )
+
+[node name="Player" type="KinematicBody" parent="."]
+script = ExtResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Player"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0 )
+mesh = SubResource( 1 )
+
+[node name="Body" type="CollisionShape" parent="Player"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0 )
+shape = SubResource( 2 )
+
+[node name="Feet" type="CollisionShape" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
+shape = SubResource( 3 )
+
+[node name="Pivot" type="Position3D" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0 )
+
+[node name="Camera" type="Camera" parent="Player/Pivot"]
+
+[node name="RayCast" type="RayCast" parent="Player/Pivot"]
+transform = Transform( 1, 0, 0, 0, -0.00865668, -0.999963, 0, 0.999963, -0.00865668, 0, 0, 0 )
+enabled = true
+cast_to = Vector3( 0, -5, 0 )
+
+[node name="Menu" type="Control" parent="."]
+pause_mode = 2
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 7 )
+script = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="Menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.223529, 0.207843, 0.207843, 0.498039 )
+
+[node name="Restart" type="Button" parent="Menu"]
+margin_left = 474.0
+margin_top = 250.0
+margin_right = 574.0
+margin_bottom = 290.0
+text = "Restart"
+
+[node name="Quit" type="Button" parent="Menu"]
+margin_left = 474.0
+margin_top = 300.0
+margin_right = 574.0
+margin_bottom = 340.0
+text = "Quit"
+
+[node name="Cheats" type="CheckBox" parent="Menu"]
+margin_left = 474.0
+margin_top = 350.0
+margin_right = 537.0
+margin_bottom = 366.0
+text = "Cheats"
+
+[node name="Time" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Time"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -28.0
+margin_right = 48.0
+margin_bottom = 37.0
+custom_fonts/font = SubResource( 8 )
+text = "Time:
+0.0000s"
+valign = 3
+
+[node name="Cheats" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="Cheats"]
+visible = false
+margin_right = 40.0
+margin_bottom = 14.0
+text = "Flying:
+chea"
+
+[connection signal="pressed" from="Menu/Restart" to="Menu" method="_on_Restart_pressed"]
+[connection signal="pressed" from="Menu/Quit" to="Menu" method="_on_Quit_pressed"]
+[connection signal="pressed" from="Menu/Cheats" to="Player" method="_on_Cheats_pressed"]
