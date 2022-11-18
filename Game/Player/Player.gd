@@ -36,8 +36,8 @@ func get_input():
 			Global.flying = false 
 	if Input.is_action_just_pressed("attack"):
 		var body = $Pivot/RayCast.get_collider()
-		if "Crystal" in body.name:
-			Global.scores += [Global.level, "%.4f"%timer]
+		if body != null and "Crystal" in body.name:
+			Global.scores[str(Global.level)] = "%.4f"%timer
 			print(Global.scores)
 			body.die()
 	if Input.is_action_just_pressed("pauseTimer"):
@@ -63,7 +63,7 @@ func _physics_process(delta):
 	velocity.x = desired_velocity.x
 	velocity.z = desired_velocity.z
 	velocity = move_and_slide(velocity, Vector3.UP, true)
-	cheatLabel.text = "Flying:" + str(Global.flying) + "\nTimer Paused: " + str(Global.timerPaused)
+	cheatLabel.text = "Flying: " + str(Global.flying) + "\nTimer Paused: " + str(Global.timerPaused)
 	if Global.cheats_enabled == true:
 		cheatLabel.show()
 		var cheatButton = get_node("/root/Game/Menu/Cheats")

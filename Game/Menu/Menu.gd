@@ -6,4 +6,4 @@ func _on_Restart_pressed():		# if we restart, then unpause the game and the relo
 	get_tree().change_scene("res://Game.tscn")
 
 func _on_Quit_pressed():
-	get_tree().quit()
+	get_tree().change_scene("res://Menu/GameOver.tscn")

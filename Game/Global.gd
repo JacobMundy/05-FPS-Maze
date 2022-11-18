@@ -1,7 +1,7 @@
 extends Node
 
 var level = 1
-var scores = []
+var scores = {}
 
 var cheats_enabled = false
 var flying = false
@@ -12,8 +12,7 @@ func _ready():
 	pause_mode = PAUSE_MODE_PROCESS		# global should never be paused
 
 func _unhandled_input(event):
-	if event.is_action_pressed("menu"):	# instead of quitting, show the menu
-		#get_tree().quit()
+	if event.is_action_pressed("menu"):
 		var menu = get_node_or_null("/root/Game/Menu")
 		if menu != null:
 			if not menu.visible:
@@ -29,5 +28,7 @@ func _unhandled_input(event):
 func all_cheats_off():
 	Global.cheats_enabled = false
 	Global.flying = false
-	var cheatLabel = get_node("/root/Game/Cheats/Label")
-	cheatLabel.hide()
+	Global.timerPaused = false
+	var cheatLabel = get_node_or_null("/root/Game/Cheats/Label")
+	if cheatLabel != null:
+		cheatLabel.hide()
