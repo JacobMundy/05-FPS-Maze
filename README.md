@@ -10,7 +10,7 @@ Main Menu, Pause Menu, and End game menu (after you press quit in game)
 
 Controllable Character
 
-Procedurally Generated Maze
+Procedurally Generated Maze With Single Crystal Enemy (mouse1 to destroy)
 
 Two cheats if you choose to use them
 
